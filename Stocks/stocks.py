@@ -1,13 +1,8 @@
-# Raw Package
 import numpy as np
 import pandas as pd
 import plotly.io as pio
 pio.renderers.default = "png"
-
-#Data Source
 import yfinance as yf
-
-#Data viz
 import plotly.graph_objs as go
 
 class Candle:
@@ -27,7 +22,6 @@ class Candle:
         return self._close
     def print(self):
         print("Open:{} High:{} Low:{} Close:{} \n".format(self._open, self._high, self._low, self._close))
-       # print("Open:%d High:%d Low:%d Close:%d \n", self._open, self._high, self._low, self._close)
         return()
 
 tickerStrings = ['MSFT', 'AAPL']
@@ -35,7 +29,7 @@ df_list = list()
 chart_data = list()
 for ticker in tickerStrings:
     data = yf.download(ticker, group_by="Ticker", period='3mo', interval='1d')
-    data['Ticker'] = ticker  # add this column because the dataframe doesn't contain a column with the ticker
+    data['Ticker'] = ticker
     df_list.append(data)
 
     #for i in data.index:
@@ -44,7 +38,7 @@ for ticker in tickerStrings:
     #declare figure
     fig = go.Figure()
 
-    #Candlestick
+    #Create candlestick
     fig.add_trace(go.Candlestick(x=data.index,
                     open=data['Open'],
                     high=data['High'],
@@ -61,7 +55,7 @@ for ticker in tickerStrings:
     #for x in range(len(chart_data)):
     #    chart_data[x].print()
 
-# combine all dataframes into a single dataframe
+# combine all dataframes into one
 df = pd.concat(df_list)
 
 # save to csv
